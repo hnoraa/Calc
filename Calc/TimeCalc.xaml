@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Calc.TimeCalc"
+             Title="Add/Subtract Times">
+    <VerticalStackLayout>
+        <StackLayout>
+            <Label x:Name="lblCurrentTime" Text="Current Time" FontSize="Medium" />
+        </StackLayout>
+
+        <StackLayout>
+            <Label Text="Add/Sub" />
+            <ListView x:Name="lvTimeOperation" SelectedItem="+" SelectionMode="Single" VerticalScrollBarVisibility="Never">
+                <ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>+</x:String>
+                        <x:String>-</x:String>
+                    </x:Array>
+                </ListView.ItemsSource>
+            </ListView>
+        </StackLayout>
+
+        <StackLayout>
+            <Label Text="Value" />
+            <Entry x:Name="txtTimeValue" Placeholder="hh:mm" />
+        </StackLayout>
+
+        <StackLayout HeightRequest="50">
+            <Label x:Name="lblAnswer" FontSize="Medium" />
+        </StackLayout>
+        <StackLayout HorizontalOptions="Center">
+            <Button x:Name="btnCalcTime" Text="Calculate"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                Clicked="btnCalcTime_Clicked" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>
