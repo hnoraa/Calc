@@ -1,3 +1,5 @@
+using static System.Net.Mime.MediaTypeNames;
+
 namespace Calc;
 
 public partial class TimeCalc : ContentPage
@@ -7,23 +9,43 @@ public partial class TimeCalc : ContentPage
 	public TimeCalc()
 	{
 		InitializeComponent();
-        lblCurrentTime.Text = $"Current Time - {DateTime.Now.ToString(_timeFormat)}";
-		lblAnswer.Text = "";
+        
+        lblAnswer.Text = "";
+        lblCurrentTz.Text = TimeZone.CurrentTimeZone.StandardName.ToString();
+        txtTime.Text = DateTime.Now.ToString(_timeFormat);
 
-        SemanticScreenReader.Announce(lblCurrentTime.Text);
+        // update current time
+        _ = Task.Run(async () =>
+        {
+            while (true)
+            {
+                await Device.InvokeOnMainThreadAsync(() =>
+                {
+                    UpdateCurrentTime();
+                });
+                await Task.Delay(30000);
+            }
+        });
+
+        SemanticScreenReader.Announce(txtTime.Text);
+        SemanticScreenReader.Announce(lblCurrentTz.Text);
         SemanticScreenReader.Announce(lblAnswer.Text);
+    }
+
+    private void UpdateCurrentTime()
+    {
+        lblCurrentTime.Text = $"Current Time - {DateTime.Now.ToString(_timeFormat)}";
+        SemanticScreenReader.Announce(lblCurrentTime.Text);
     }
 
     private void btnCalcTime_Clicked(object sender, EventArgs e)
     {
-        if(!string.IsNullOrEmpty(txtTimeValue.Text) && txtTimeValue.Text.Contains(':') && !string.IsNullOrEmpty(lvTimeOperation.SelectedItem.ToString()))
+        if (!string.IsNullOrEmpty(txtTimeValueHrs.Text) && !string.IsNullOrEmpty(txtTimeValueMins.Text) && !string.IsNullOrEmpty(lvTimeOperation.SelectedItem.ToString()))
         {
-            string[] val = txtTimeValue.Text.Split(':');
             string operation = lvTimeOperation.SelectedItem.ToString();
-            string currentTime = DateTime.Now.ToString(_timeFormat);
-            if (val.Length == 2 && (int.TryParse(val[0], out int calcHr) && int.TryParse(val[1], out int calcMin)))
+            if ((int.TryParse(txtTimeValueHrs.Text, out int calcHr) && int.TryParse(txtTimeValueMins.Text, out int calcMin)))
             {
-                DateTime tempCalc = DateTime.Parse(currentTime);
+                DateTime tempCalc = DateTime.Parse(txtTime.Text);
 
                 if (calcHr > 0)
                 {
@@ -35,9 +57,7 @@ public partial class TimeCalc : ContentPage
                     tempCalc = operation.Equals("-") ? tempCalc.AddMinutes(-calcMin) : tempCalc.AddMinutes(calcMin);
                 }
 
-                lblCurrentTime.Text = $"Current Time - {DateTime.Now.ToString(_timeFormat)}";
-                lblAnswer.Text = $"Answer: {currentTime} {operation} {txtTimeValue.Text} = {tempCalc.ToString(_timeFormat)}";
-                SemanticScreenReader.Announce(lblCurrentTime.Text);
+                lblAnswer.Text = $"Answer: {txtTime.Text} {operation} {txtTimeValueHrs.Text}:{txtTimeValueMins.Text} = {tempCalc.ToString(_timeFormat)}";
                 SemanticScreenReader.Announce(lblAnswer.Text);
             }
         }

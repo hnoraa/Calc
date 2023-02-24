@@ -9,8 +9,12 @@
         </StackLayout>
 
         <StackLayout>
+            <Label Text="Time" />
+            <Entry x:Name="txtTime" BackgroundColor="LightGray" MaximumWidthRequest="100" WidthRequest="100" HorizontalOptions="Start" />
+        </StackLayout>
+        <StackLayout>
             <Label Text="Add/Sub" />
-            <ListView x:Name="lvTimeOperation" SelectedItem="+" SelectionMode="Single" VerticalScrollBarVisibility="Never">
+            <ListView x:Name="lvTimeOperation" SelectedItem="+" SelectionMode="Single" BackgroundColor="LightGray" VerticalScrollBarVisibility="Never" MaximumWidthRequest="100" WidthRequest="100" HorizontalOptions="Start">
                 <ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>+</x:String>
@@ -21,18 +25,35 @@
         </StackLayout>
 
         <StackLayout>
-            <Label Text="Value" />
-            <Entry x:Name="txtTimeValue" Placeholder="hh:mm" />
+            <Label Text="Value (hh:mm)" />
+            <HorizontalStackLayout>
+                <Entry x:Name="txtTimeValueHrs" BackgroundColor="LightGray" MaximumWidthRequest="30" WidthRequest="30" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                <Label Text=" : " MaximumWidthRequest="10" WidthRequest="10" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" />
+                <Entry x:Name="txtTimeValueMins" BackgroundColor="LightGray" MaximumWidthRequest="30" WidthRequest="30" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+            </HorizontalStackLayout>
         </StackLayout>
 
         <StackLayout HeightRequest="50">
             <Label x:Name="lblAnswer" FontSize="Medium" />
         </StackLayout>
-        <StackLayout HorizontalOptions="Center">
+        <StackLayout>
             <Button x:Name="btnCalcTime" Text="Calculate"
                 VerticalOptions="Center" 
-                HorizontalOptions="Center"
                 Clicked="btnCalcTime_Clicked" />
+        </StackLayout>
+        <StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Current Time Zone" BackgroundColor="LightGray" Margin="2" Padding="2,0,0,0" />
+                <Label Grid.Row="0" Grid.Column="1" x:Name="lblCurrentTz" BackgroundColor="LightGray" Margin="2" Padding="2,0,0,0" />
+            </Grid>
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>
