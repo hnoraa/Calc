@@ -19,9 +19,9 @@
         <StackLayout>
             <Label Text="Value (hh:mm)" FontSize="Medium" />
             <HorizontalStackLayout>
-                <Entry x:Name="txtTimeValueHrs" BackgroundColor="LightGray" MaximumWidthRequest="30" WidthRequest="30" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Medium" />
+                <Entry x:Name="txtTimeValueHrs" BackgroundColor="LightGray" MaximumWidthRequest="30" WidthRequest="30" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Medium" Keyboard="Numeric" />
                 <Label Text=" : " MaximumWidthRequest="10" WidthRequest="10" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontSize="Medium" />
-                <Entry x:Name="txtTimeValueMins" BackgroundColor="LightGray" MaximumWidthRequest="30" WidthRequest="30" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Medium" />
+                <Entry x:Name="txtTimeValueMins" BackgroundColor="LightGray" MaximumWidthRequest="30" WidthRequest="30" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="Medium" Keyboard="Numeric" />
             </HorizontalStackLayout>
         </StackLayout>
         

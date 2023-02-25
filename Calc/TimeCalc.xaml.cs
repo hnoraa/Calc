@@ -49,6 +49,16 @@ public partial class TimeCalc : ContentPage
 
     private void Calc(string operand)
     {
+        if(string.IsNullOrEmpty(txtTimeValueMins.Text))
+        {
+            txtTimeValueMins.Text = "00";
+        }
+
+        if(string.IsNullOrEmpty(txtTimeValueHrs.Text))
+        {
+            txtTimeValueHrs.Text = "00";
+        }
+
         if ((int.TryParse(txtTimeValueHrs.Text, out int calcHr) && int.TryParse(txtTimeValueMins.Text, out int calcMin)))
         {
             DateTime tempCalc = DateTime.Parse(txtTime.Text);
