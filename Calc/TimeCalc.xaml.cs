@@ -11,7 +11,7 @@ public partial class TimeCalc : ContentPage
 		InitializeComponent();
         
         lblAnswer.Text = "";
-        lblCurrentTz.Text = TimeZone.CurrentTimeZone.StandardName.ToString();
+        lblCurrentTz.Text = TimeZoneInfo.Local.DisplayName;
         txtTime.Text = DateTime.Now.ToString(_timeFormat);
 
         // update current time
