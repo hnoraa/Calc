@@ -1,4 +1,3 @@
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Calc;
 
@@ -38,28 +37,42 @@ public partial class TimeCalc : ContentPage
         SemanticScreenReader.Announce(lblCurrentTime.Text);
     }
 
-    private void btnCalcTime_Clicked(object sender, EventArgs e)
+    private void btnCalcTimeAdd_Clicked(object sender, EventArgs e)
     {
-        if (!string.IsNullOrEmpty(txtTimeValueHrs.Text) && !string.IsNullOrEmpty(txtTimeValueMins.Text) && !string.IsNullOrEmpty(lvTimeOperation.SelectedItem.ToString()))
+        Calc("+");
+    }
+
+    private void btnCalcTimeSub_Clicked(object sender, EventArgs e)
+    {
+        Calc("-");
+    }
+
+    private void Calc(string operand)
+    {
+        if ((int.TryParse(txtTimeValueHrs.Text, out int calcHr) && int.TryParse(txtTimeValueMins.Text, out int calcMin)))
         {
-            string operation = lvTimeOperation.SelectedItem.ToString();
-            if ((int.TryParse(txtTimeValueHrs.Text, out int calcHr) && int.TryParse(txtTimeValueMins.Text, out int calcMin)))
+            DateTime tempCalc = DateTime.Parse(txtTime.Text);
+
+            if (calcHr > 0)
             {
-                DateTime tempCalc = DateTime.Parse(txtTime.Text);
-
-                if (calcHr > 0)
-                {
-                    tempCalc = operation.Equals("-") ? tempCalc.AddHours(-calcHr) : tempCalc.AddHours(calcHr);
-                }
-
-                if (calcMin > 0)
-                {
-                    tempCalc = operation.Equals("-") ? tempCalc.AddMinutes(-calcMin) : tempCalc.AddMinutes(calcMin);
-                }
-
-                lblAnswer.Text = $"Answer: {txtTime.Text} {operation} {txtTimeValueHrs.Text}:{txtTimeValueMins.Text} = {tempCalc.ToString(_timeFormat)}";
-                SemanticScreenReader.Announce(lblAnswer.Text);
+                tempCalc = operand.Equals("-") ? tempCalc.AddHours(-calcHr) : tempCalc.AddHours(calcHr);
             }
+
+            if (calcMin > 0)
+            {
+                tempCalc = operand.Equals("-") ? tempCalc.AddMinutes(-calcMin) : tempCalc.AddMinutes(calcMin);
+            }
+
+            txtTimeValueHrs.Text = txtTimeValueHrs.Text.Length == 1 ? "0" + txtTimeValueHrs.Text : txtTimeValueHrs.Text;
+            txtTimeValueMins.Text = txtTimeValueMins.Text.Length == 1 ? "0" + txtTimeValueMins.Text : txtTimeValueMins.Text;
+            lblAnswer.Text = $"Answer: {txtTime.Text} {operand} {txtTimeValueHrs.Text}:{txtTimeValueMins.Text} = {tempCalc.ToString(_timeFormat)}";
+            SemanticScreenReader.Announce(lblAnswer.Text);
         }
+    }
+
+    private void btnSetTime_Clicked(object sender, EventArgs e)
+    {
+        txtTime.Text = DateTime.Now.ToString(_timeFormat);
+        SemanticScreenReader.Announce(txtTime.Text);
     }
 }
